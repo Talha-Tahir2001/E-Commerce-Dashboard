@@ -1,30 +1,39 @@
-import React, { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { ShieldCheck, Truck, Headphones } from "lucide-react"
-import { Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import Footer from "@/components/Footer"
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ShieldCheck, Truck, Headphones } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import Footer from "@/components/Footer";
 
 const HomePage = () => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchProducts = async () => {
       try {
-        const res = await fetch("https://fakestoreapi.com/products")
-        const data = await res.json()
+        const res = await fetch("https://fakestoreapi.com/products", {
+          signal: controller.signal,
+        });
+        if (!res.ok) throw new Error("Failed to fetch products");
+        const data = await res.json();
 
         // Shuffle and pick 6 random products
-        const shuffled = [...data].sort(() => 0.5 - Math.random())
-        setProducts(shuffled.slice(0, 6))
+        const shuffled = [...data].sort(() => 0.5 - Math.random());
+        setProducts(shuffled.slice(0, 6));
       } catch (error) {
-        console.error("Error fetching products:", error)
+        if (error.name !== "AbortError") {
+          console.error("Error fetching products:", error);
+        }
       }
-    }
+    };
 
-    fetchProducts()
-  }, [])
+    fetchProducts();
+
+    return () => controller.abort(); // cleanup
+  }, []);
 
   return (
     <div className="w-full bg-background text-foreground">
@@ -110,7 +119,9 @@ const HomePage = () => {
                   className="w-full h-48 object-contain bg-background"
                 />
                 <CardContent className="p-4 flex flex-col gap-2">
-                  <h3 className="font-semibold line-clamp-1">{product.title}</h3>
+                  <h3 className="font-semibold line-clamp-1">
+                    {product.title}
+                  </h3>
                   <p className="text-muted-foreground">${product.price}</p>
                 </CardContent>
               </Card>
@@ -122,7 +133,7 @@ const HomePage = () => {
       {/* Footer */}
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

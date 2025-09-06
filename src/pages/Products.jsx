@@ -38,23 +38,35 @@ export default function ProductsPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await fetch("https://fakestoreapi.com/products");
+        const res = await fetch("https://fakestoreapi.com/products", {
+          signal: controller.signal,
+        });
         if (!res.ok) throw new Error("Failed to fetch products");
+
         const data = await res.json();
         setProducts(data);
         setFilteredProducts(data);
         setCategories(["all", ...new Set(data.map((p) => p.category))]);
+
         toast.success("Products loaded successfully!");
-      } catch {
-        toast.error("Could not load products. Please try again.");
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          toast.error("Could not load products. Please try again.");
+          console.error("Error fetching products:", error);
+        }
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
+
+    return () => controller.abort(); // cleanup if component unmounts
   }, []);
 
   // Apply filters
@@ -140,10 +152,14 @@ export default function ProductsPage() {
                       cart?
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogCancel className="cursor-pointer" onClick={() => setSelectedProduct(null)}>
+                  <AlertDialogCancel
+                    className="cursor-pointer"
+                    onClick={() => setSelectedProduct(null)}
+                  >
                     Cancel
                   </AlertDialogCancel>
-                  <AlertDialogAction className="cursor-pointer"
+                  <AlertDialogAction
+                    className="cursor-pointer"
                     onClick={() => {
                       dispatch(addToCart(product));
                       toast.success(`"${product.title}" added to cart!`);
