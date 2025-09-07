@@ -4,15 +4,17 @@ import { ShieldCheck, Truck, Headphones } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton"; // ✅ Import skeleton
 import Footer from "@/components/Footer";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    const fetchProducts = async () => {
+    const fetchProducts = async (retries = 3) => {
       try {
         const res = await fetch("https://fakestoreapi.com/products", {
           signal: controller.signal,
@@ -25,14 +27,21 @@ const HomePage = () => {
         setProducts(shuffled.slice(0, 6));
       } catch (error) {
         if (error.name !== "AbortError") {
-          console.error("Error fetching products:", error);
+          if (retries > 0) {
+            console.warn(`Retrying... attempts left: ${retries}`);
+            setTimeout(() => fetchProducts(retries - 1), 1000);
+          } else {
+            console.error("Error fetching products:", error);
+          }
         }
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProducts();
 
-    return () => controller.abort(); // cleanup
+    return () => controller.abort();
   }, []);
 
   return (
@@ -105,28 +114,39 @@ const HomePage = () => {
           Popular Products
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {products.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              <Card className="overflow-hidden bg-card text-card-foreground shadow">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-48 object-contain bg-background"
-                />
-                <CardContent className="p-4 flex flex-col gap-2">
-                  <h3 className="font-semibold line-clamp-1">
-                    {product.title}
-                  </h3>
-                  <p className="text-muted-foreground">${product.price}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+          {loading
+            ? // Skeleton loader (6 items)
+              Array.from({ length: 6 }).map((_, i) => (
+                <Card key={i} className="overflow-hidden bg-card text-card-foreground shadow">
+                  <Skeleton className="w-full h-48" />
+                  <CardContent className="p-4 space-y-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </CardContent>
+                </Card>
+              ))
+            : products.map((product, i) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                >
+                  <Card className="overflow-hidden bg-card text-card-foreground shadow">
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className="w-full h-48 object-contain bg-background"
+                    />
+                    <CardContent className="p-4 flex flex-col gap-2">
+                      <h3 className="font-semibold line-clamp-1">
+                        {product.title}
+                      </h3>
+                      <p className="text-muted-foreground">${product.price}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
         </div>
       </section>
 
