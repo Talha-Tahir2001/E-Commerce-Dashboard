@@ -1,15 +1,18 @@
 import { logout } from "@/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { markAsDelivered, cancelOrder } from "@/slices/cartSlice";
+// import { markAsDelivered, cancelOrder } from "@/slices/cartSlice";
 import { Button } from "@/components/ui/button";
+import { useMemo } from "react";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const allOrders = useSelector((state) => state.cart.orders);
 
   // Get user's orders from Redux store
-  const orders = useSelector((state) =>
-    state.cart.orders.filter((order) => order.user?.id === user?.id)
+  const orders = useMemo(
+    () => allOrders.filter((order) => order.user?.id === user?.id),
+    [allOrders, user?.id]
   );
 
   if (!user) {
@@ -28,8 +31,12 @@ export default function ProfilePage() {
       {/* User Info */}
       <div className="w-full max-w-md border rounded-xl p-4 bg-card shadow">
         <h2 className="text-lg font-semibold mb-2">Profile Info</h2>
-        <p><strong>Email:</strong> {user.email || "Not provided"}</p>
-        <p><strong>Role:</strong> {user.role || "User"}</p>
+        <p>
+          <strong>Email:</strong> {user.email || "Not provided"}
+        </p>
+        <p>
+          <strong>Role:</strong> {user.role || "User"}
+        </p>
       </div>
 
       {/* Actions */}
@@ -55,15 +62,29 @@ export default function ProfilePage() {
           <p>No orders yet.</p>
         ) : (
           orders.map((order) => (
-            <div key={order.id} className="border rounded-lg p-4 mb-4 bg-card shadow flex flex-col md:flex-row justify-between gap-4">
+            <div
+              key={order.id}
+              className="border rounded-lg p-4 mb-4 bg-card shadow flex flex-col md:flex-row justify-between gap-4"
+            >
               <div>
-                <p><strong>Order ID:</strong> {order.id}</p>
-                <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
-                <p><strong>Status:</strong> {order.status}</p>
-                <p><strong>Date:</strong> {order.date}</p>
-                <p><strong>Items:</strong> {order.items.map(i => i.title).join(", ")}</p>
+                <p>
+                  <strong>Order ID:</strong> {order.id}
+                </p>
+                <p>
+                  <strong>Total:</strong> ${order.total.toFixed(2)}
+                </p>
+                <p>
+                  <strong>Status:</strong> {order.status}
+                </p>
+                <p>
+                  <strong>Date:</strong> {order.date}
+                </p>
+                <p>
+                  <strong>Items:</strong>{" "}
+                  {order.items.map((i) => i.title).join(", ")}
+                </p>
               </div>
-              <div className="flex gap-2">
+              {/* <div className="flex gap-2">
                 {order.status === "Processing" && (
                   <>
                     <Button className="cursor-pointer" onClick={() => dispatch(markAsDelivered(order.id))}>
@@ -74,7 +95,7 @@ export default function ProfilePage() {
                     </Button>
                   </>
                 )}
-              </div>
+              </div> */}
             </div>
           ))
         )}
