@@ -223,7 +223,7 @@ firebase deploy`
     
 -  [X] Setup Redux Toolkit
     
--   Add TypeScript support
+-  [ ] Add TypeScript support
     
 
 ### 🎨 Phase 2: UI & Styling
@@ -243,18 +243,18 @@ firebase deploy`
     
 -  [X] Profile & Order history
     
--   Wishlist & Favorites
+- [ ]  Wishlist & Favorites
     
 -  [X] Search & Filters
     
 
 ### 🔐 Phase 4: Advanced Features
 
--   JWT/Firebase Authentication
+- [ ]  JWT/Firebase Authentication
     
--   Admin panel with CRUD for products
+- [ ]  Admin panel with CRUD for products
     
--   Real-time updates (WebSockets)
+-  [ ] Real-time updates (WebSockets)
     
 
 ### 🌍 Phase 5: Deployment
@@ -263,7 +263,7 @@ firebase deploy`
     
 -  [X] Setup CI/CD with GitHub Actions
     
--   Custom domain
+- [ ]  Custom domain
     
 
 ----------
