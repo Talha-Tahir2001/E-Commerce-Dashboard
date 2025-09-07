@@ -104,29 +104,29 @@ Protected route accessible only to admins.
 
 ## 📂 Project Structure
 
+```
 E-Commerce-Dashboard/
-│── public/         # Static assets
+│── public/               # Static assets
 │── src/
-│   ├── components/ # Shared UI components
+│   ├── components/       # Shared UI components
 │   │   ├── Header.jsx
 │   │   ├── Footer.jsx
 │   │   ├── ProductCard.jsx
 │   │   └── ...
-│   ├── pages/   # App pages
+│   ├── pages/            # App pages
 │   │   ├── HomePage.jsx
 │   │   ├── ProductsPage.jsx
 │   │   ├── CartPage.jsx
 │   │   ├── ProfilePage.jsx
 │   │   └── AdminPage.jsx
-│   ├── slices/  # Redux slices (auth, cart, etc.)
-│   ├── App.jsx  # Routes
-│   ├── main.jsx # React entry point
+│   ├── slices/           # Redux slices (auth, cart, etc.)
+│   ├── App.jsx           # Routes
+│   └── main.jsx          # React entry point
 │── package.json
 │── vite.config.js
 │── README.md
-` 
+```
 
-----------
 
 
 
