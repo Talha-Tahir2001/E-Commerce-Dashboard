@@ -22,6 +22,7 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogAction,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
 export default function ProductsPage() {
@@ -158,6 +159,16 @@ export default function ProductsPage() {
                   if (!open) setSelectedProduct(null);
                 }}
               >
+                {/* Trigger */}
+                <Button
+                  className="w-full cursor-pointer"
+                  onClick={() => handleSelectProduct(product)}
+                  asChild
+                >
+                  <AlertDialogTrigger> Add to Cart </AlertDialogTrigger>
+                </Button>
+
+                {/* Dialog Content */}
                 <AlertDialogContent aria-describedby="add-to-cart-desc">
                   <AlertDialogHeader>
                     <AlertDialogTitle>Confirm Add to Cart</AlertDialogTitle>
@@ -175,23 +186,12 @@ export default function ProductsPage() {
                   </AlertDialogCancel>
                   <AlertDialogAction
                     className="cursor-pointer"
-                    onClick={() => {
-                      handleAddToCart(product);
-                      toast.success(`"${product.title}" added to cart!`);
-                      setSelectedProduct(null);
-                    }}
+                    onClick={() => handleAddToCart(product)}
                   >
                     Yes, Add
                   </AlertDialogAction>
                 </AlertDialogContent>
               </AlertDialog>
-              {/* Trigger Button */}
-              <Button
-                onClick={() => handleAddToCart(product)}
-                className="w-full cursor-pointer"
-              >
-                Add to Cart
-              </Button>
             </CardContent>
           </Card>
         ))}
