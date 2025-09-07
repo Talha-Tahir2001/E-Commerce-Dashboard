@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,6 @@ import { addToCart } from "@/slices/cartSlice";
 import { toast } from "sonner";
 import {
   AlertDialog,
-  AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -36,6 +35,19 @@ export default function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const dispatch = useDispatch();
+
+  const handleSelectProduct = useCallback((product) => {
+    setSelectedProduct(product);
+  }, []);
+
+  const handleAddToCart = useCallback(
+    (product) => {
+      dispatch(addToCart(product));
+      toast.success(`"${product.title}" added to cart!`);
+      setSelectedProduct(null);
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     const controller = new AbortController();
@@ -142,26 +154,29 @@ export default function ProductsPage() {
               {/* Add to Cart Alert */}
               <AlertDialog
                 open={selectedProduct?.id === product.id}
-                onOpenChange={() => setSelectedProduct(null)}
+                onOpenChange={(open) => {
+                  if (!open) setSelectedProduct(null);
+                }}
               >
-                <AlertDialogContent>
+                <AlertDialogContent aria-describedby="add-to-cart-desc">
                   <AlertDialogHeader>
                     <AlertDialogTitle>Confirm Add to Cart</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want to add "{product.title}" to your
-                      cart?
+                    <AlertDialogDescription id="add-to-cart-desc">
+                      {product?.title
+                        ? `Are you sure you want to add "${product.title}" to your cart?`
+                        : "Are you sure you want to add this product to your cart?"}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogCancel
                     className="cursor-pointer"
-                    onClick={() => setSelectedProduct(null)}
+                    onClick={() => handleSelectProduct(null)}
                   >
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     className="cursor-pointer"
                     onClick={() => {
-                      dispatch(addToCart(product));
+                      handleAddToCart(product);
                       toast.success(`"${product.title}" added to cart!`);
                       setSelectedProduct(null);
                     }}
@@ -172,7 +187,7 @@ export default function ProductsPage() {
               </AlertDialog>
               {/* Trigger Button */}
               <Button
-                onClick={() => setSelectedProduct(product)}
+                onClick={() => handleAddToCart(product)}
                 className="w-full cursor-pointer"
               >
                 Add to Cart
