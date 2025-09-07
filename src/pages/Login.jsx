@@ -1,71 +1,93 @@
-import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/slices/authSlice";
+// src/pages/Login.jsx
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "@/slices/authSlice";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const emailRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const handleSubmit = (e) => {
+
+  const usernameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+
+  const [role, setRole] = useState("user");
+
+  const handleLogin = (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      toast.error("Please fill in all fields.");
-      emailRef.current.focus();
-      return;
-    }
-        
-    const fakeUser = {
-      id: 1,
-      name: "Talha",
-      email,
-      role: email === "admin@shop.com" ? "admin" : "user",
-    };
+     const username = usernameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    dispatch(
+      login({
+        username,
+        email,
+        role,
+      })
+    );
 
-    dispatch(login(fakeUser));
-    toast.success("Logged in successfully!");
-    navigate("/profile");
+    if (role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/profile");
+    }
   };
 
-  if (isAuthenticated) {
-    return (
-      <div className="p-6 text-center">
-        <p className="mb-4">You are already logged in.</p>
-        <Button onClick={() => navigate("/profile")}>Go to Profile</Button>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
+    <div className="flex items-center justify-center min-h-screen bg-background text-foreground">
       <form
-        onSubmit={handleSubmit}
-        className="p-6 bg-card rounded-lg shadow w-full max-w-md space-y-4"
+        onSubmit={handleLogin}
+        className="bg-card shadow-lg rounded-xl p-6 w-96 space-y-4"
       >
-        <h1 className="text-2xl font-bold text-center">Login</h1>
+        <h2 className="text-xl font-bold">Login</h2>
 
+        {/* Username */}
         <Input
-          ref={emailRef}
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Enter username"
+          ref={usernameRef}
+          required
         />
 
+        {/* Email */}
+        <Input
+          type="email"
+          placeholder="Enter email"
+          ref={emailRef}
+          required
+        />
+
+        {/* Password */}
         <Input
           type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter password"
+          ref={passwordRef}          
+          required
         />
+
+        {/* Role selector */}
+        <Select value={role} onValueChange={setRole}>
+          <SelectTrigger className="w-full cursor-pointer">
+            <SelectValue placeholder="Select role" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="user">User</SelectItem>
+            <SelectItem value="admin">Admin</SelectItem>
+          </SelectContent>
+        </Select>
 
         <Button type="submit" className="w-full cursor-pointer">
           Login
