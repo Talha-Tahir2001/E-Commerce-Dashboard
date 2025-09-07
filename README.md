@@ -105,52 +105,60 @@ Protected route accessible only to admins.
 ## 📂 Project Structure
 
 E-Commerce-Dashboard/
-│── public/              # Static assets
+│── public/         # Static assets
 │── src/
-│   ├── components/      # Shared UI components
+│   ├── components/ # Shared UI components
 │   │   ├── Header.jsx
 │   │   ├── Footer.jsx
 │   │   ├── ProductCard.jsx
 │   │   └── ...
-│   ├── pages/           # App pages
+│   ├── pages/   # App pages
 │   │   ├── HomePage.jsx
 │   │   ├── ProductsPage.jsx
 │   │   ├── CartPage.jsx
 │   │   ├── ProfilePage.jsx
 │   │   └── AdminPage.jsx
-│   ├── slices/          # Redux slices (auth, cart, etc.)
-│   ├── App.jsx          # Routes
-│   ├── main.jsx         # React entry point
+│   ├── slices/  # Redux slices (auth, cart, etc.)
+│   ├── App.jsx  # Routes
+│   ├── main.jsx # React entry point
 │── package.json
 │── vite.config.js
 │── README.md
+` 
+
+----------
+
 
 
 ----------
 
-## ⚙️ Installation & Setup
+## ⚙️ Installation & Setup  
+### Clone the project repository to your local machine:
 
-### Clone the repo
-
-`git clone https://github.com/Talha-Tahir2001/E-Commerce-Dashboard cd E-Commerce-Dashboard` 
-
+```bash
+git clone https://github.com/Talha-Tahir2001/E-Commerce-Dashboard
+```
+### Navigate to Project
+```bash
+cd E-Commerce-Dashboard
+```
 ### Install dependencies
-
-`npm install` 
-
-### Run dev server
-
-`npm run dev` 
-
-App runs at `http://localhost:5173/`
-
-### Build project
-
+```bash
+npm install
+```
+### Run the development server:
+```bash
+npm run dev
+```
+### Build the project:
+```bash
 `npm run build` 
-
-### Preview production build
-
-`npm run preview` 
+```
+### Preview the production build:
+```bash
+`npm run preview``
+```
+This will run the application at `http://localhost:5173/`. 
 
 ----------
 
