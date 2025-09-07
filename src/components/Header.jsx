@@ -1,19 +1,21 @@
-import { Cog, ShoppingBag, ShoppingCart, User, Menu } from "lucide-react"
-import { Link } from "react-router-dom"
-import { ModeToggle } from "./mode-toggle"
-import { useSelector } from "react-redux"
+import { Cog, ShoppingBag, ShoppingCart, User, Menu } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ModeToggle } from "./mode-toggle";
+import { useSelector } from "react-redux";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
+import { Button } from "./ui/button";
 
 export default function Header() {
-  const cart = useSelector((state) => state.cart.items)
+  const cart = useSelector((state) => state.cart.items);
   // total quantity (not just unique items)
-  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <header className="w-full bg-background text-foreground border-b shadow-sm">
@@ -63,13 +65,16 @@ export default function Header() {
           {/* Mobile menu */}
           <Sheet>
             <SheetTrigger asChild>
-              <button className="md:hidden p-2 rounded-md hover:bg-muted transition-colors cursor-pointer">
+              <Button className="md:hidden p-2 rounded-md hover:bg-primary/80 transition-colors cursor-pointer">
                 <Menu size={22} />
-              </button>
+              </Button>
             </SheetTrigger>
             <SheetContent side="top" className="bg-background text-foreground">
               <SheetHeader>
                 <SheetTitle className="text-xl font-bold">Menu</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Navigate between products, cart, profile, and admin pages.
+                </SheetDescription>
               </SheetHeader>
               <div className="mt-4 flex flex-col gap-4">
                 <Link
@@ -107,5 +112,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
