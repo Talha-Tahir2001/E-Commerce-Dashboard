@@ -39,7 +39,7 @@ export default function Header() {
           >
             <ShoppingCart size={18} /> Cart
             {cartCount > 0 && (
-              <span className="ml-1 text-sm font-semibold text-muted-foreground">
+              <span className="ml-1 text-sm font-semibold text-foreground">
                 ({cartCount})
               </span>
             )}
