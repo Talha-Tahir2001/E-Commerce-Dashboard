@@ -11,7 +11,7 @@ Currently, two official plugins are available:
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
-
+------------------
 
 # 🛍️ E-Shop Dashboard
 
@@ -57,9 +57,9 @@ It demonstrates **React fundamentals** such as **state management with Redux Too
 -   **npm** → Comes with Node.js
     
 -   **Vite** → Scaffold a project with:
-    
-
-`npx create-vite@latest` 
+     ```bash
+    npx create-vite@latest
+    ```
 
 ----------
 
@@ -166,39 +166,30 @@ This will run the application at `http://localhost:5173/`.
 
 ----------
 
-## 🚀 Deployment
-
-### **Vercel**
-
-1.  Push code to GitHub
-    
-2.  Go to [Vercel](https://vercel.com/), import repo
-    
-3.  Set build command → `npm run build`
-    
-4.  Set publish dir → `dist/`
-    
-5.  Click **Deploy**
-    
-
-### **Netlify**
-
-1.  Import repo in [Netlify](https://netlify.com)
-    
-2.  Build command → `npm run build`
-    
-3.  Publish dir → `dist/`
-    
-4.  Deploy 🎉
-    
-
-### **Firebase**
-
-`npm install -g firebase-tools
+## 🚀Deployment 
+### Firebase Hosting
+```bash
+npm install -g firebase-tools
 firebase login
 firebase init
-npm run build
-firebase deploy` 
+npm run build 
+firebase deploy
+```
+### Vercel
+```bash
+Push your Code to Github
+Go to [Vercel](https://vercel.com/) and create your account
+Just connect your github account with vercel
+Import a project and hit Deploy
+```
+### Netlify
+```bash
+Push your code to GitHub
+Go to [Netlify](https://netlify.com) and import your repository
+Set the build command: `npm run build`
+Set the publish directory: `dist/you-directory`
+Click **Deploy**
+```
 
 ----------
 
@@ -219,6 +210,10 @@ firebase deploy`
 
 ## 📌 Roadmap
 
+This roadmap outlines the planned development milestones for the project.  
+You can track progress here — checked boxes represent completed tasks.  
+
+---
 ### 🚀 Phase 1: Setup
 
 -   [X] Initialize project with **Vite + React**
@@ -229,6 +224,7 @@ firebase deploy`
     
 -  [ ] Add TypeScript support
     
+---
 
 ### 🎨 Phase 2: UI & Styling
 
@@ -238,6 +234,7 @@ firebase deploy`
     
 -  [X] Add **dark/light mode toggle**
     
+---
 
 ### 🛠️ Phase 3: Features
 
@@ -251,6 +248,7 @@ firebase deploy`
     
 -  [X] Search & Filters
     
+---
 
 ### 🔐 Phase 4: Advanced Features
 
@@ -260,6 +258,7 @@ firebase deploy`
     
 -  [ ] Real-time updates (WebSockets)
     
+---
 
 ### 🌍 Phase 5: Deployment
 
