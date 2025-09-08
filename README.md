@@ -108,11 +108,15 @@ Protected route accessible only to admins.
 E-Commerce-Dashboard/
 │── public/               # Static assets
 │── src/
+|── store.js
 │   ├── components/       # Shared UI components
 │   │   ├── Header.jsx
 │   │   ├── Footer.jsx
-│   │   ├── ProductCard.jsx
-│   │   └── ...
+│   │   ├── Mode-Toggle.jsx
+|   |   ├── Theme-Provider.jsx
+│   │   └── ui/
+|   |       ├── alert-dialog.jsx
+|   |       ├── button.jsx
 │   ├── pages/            # App pages
 │   │   ├── HomePage.jsx
 │   │   ├── ProductsPage.jsx
@@ -152,11 +156,11 @@ npm run dev
 ```
 ### Build the project:
 ```bash
-`npm run build` 
+npm run build
 ```
 ### Preview the production build:
 ```bash
-`npm run preview``
+npm run preview
 ```
 This will run the application at `http://localhost:5173/`. 
 
@@ -279,8 +283,8 @@ Contributions are welcome! 🎉
    - Click the "Fork" button on the top right of this page.
 2. **Clone your forked repo**
    ```bash
-   git clone https://github.com/Talha-Tahir2001/task-tracker.git
-   cd task-tracker
+   git clone https://github.com/Talha-Tahir2001/E-Commerce-Dashboard.git
+   cd E-Commerce-Dashboard
    ```
 3. **Create a new branch**
    ```bash
@@ -303,7 +307,7 @@ Contributions are welcome! 🎉
 
 ## 📄 License
 
-This project is open-source and available under the MIT License.
+This project is open-source and available under the [MIT License](https://github.com/Talha-Tahir2001/E-Commerce-Dashboard/blob/main/LICENSE).
 
 ----------
 
