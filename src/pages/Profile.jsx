@@ -26,7 +26,7 @@ export default function ProfilePage() {
   return (
     <div className="p-6 bg-background text-foreground min-h-screen flex flex-col items-center gap-6">
       {/* Welcome */}
-      <h1 className="text-2xl font-bold">Welcome, {user.name} 👋</h1>
+      <h1 className="text-2xl font-bold">Welcome, {user.username} 👋</h1>
 
       {/* User Info */}
       <div className="w-full max-w-md border rounded-xl p-4 bg-card shadow">
@@ -41,18 +41,20 @@ export default function ProfilePage() {
 
       {/* Actions */}
       <div className="flex gap-4">
-        <button
+        <Button
           onClick={() => alert("Change password flow coming soon!")}
-          className="px-4 py-2 cursor-pointer rounded-lg bg-primary text-primary-foreground hover:opacity-90"
+          variant="outline"
+          className="cursor-pointer"
         >
           Change Password
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => dispatch(logout())}
-          className="px-4 py-2 cursor-pointer rounded-lg bg-destructive text-destructive-foreground hover:opacity-90"
+          variant="destructive"
+          className="cursor-pointer"
         >
           Logout
-        </button>
+        </Button>
       </div>
 
       {/* Order History */}
